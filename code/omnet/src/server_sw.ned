@@ -28,14 +28,14 @@ module Server_sw
         virtual_processor[m]: Virtual_processor {
             @display("p=158,104");
         }
-        transaction_dispatcher: Dispatcher {
-            in_size = m;
-            ext_size = n;
+        transaction_dispatcher: Dispatcher { //Simulate the NIC to VirtualProcessors routing
+            in_size = m; //Number of gates that look towards VirtualProcessors
+            ext_size = n; //Number of gates that look towards Clients
             @display("p=158,34");
         }
-        processor_dispatcher: Dispatcher {
-            in_size = 1;
-            ext_size = m;
+        processor_dispatcher: Dispatcher { //Simulate the VirtualProcessor to Processor routing
+            in_size = 1; //Number of gates that look towards the Processor
+            ext_size = m; //Number of gates that look towards VirtualProcesors
             @display("p=158,177");
         }
     connections:

@@ -20,6 +20,9 @@ package pecsn_project;
 //
 simple Remote_server_handler
 {
+    parameters:
+   		string distribution = default("exp");
+    	double distrMean = default(0.003);
     gates:
-       inout processor;
+       	inout processor;
 }

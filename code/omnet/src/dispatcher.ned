@@ -23,6 +23,7 @@ simple Dispatcher
     parameters:
     	int in_size; //number of clients;
     	int ext_size; //multiprogramming grade;
+    	double overhead; //Time needed to traverse the dispatcher
     gates: 
         inout extern[int_size];
         inout intern[ext_size];

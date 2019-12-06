@@ -20,6 +20,9 @@ package pecsn_project;
 //
 simple Processor
 {
+    parameters:
+        string distribution = default("exp");
+        double distrMean = default(0.003);
     gates:
         inout sw;
        	inout disk;

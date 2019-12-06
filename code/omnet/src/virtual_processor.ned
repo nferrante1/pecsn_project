@@ -20,6 +20,9 @@ package pecsn_project;
 //
 simple Virtual_processor
 {
+    parameters:
+        int client_id;
+                
     gates:
        inout transaction_dispatcher;
        inout processor_dispatcher;

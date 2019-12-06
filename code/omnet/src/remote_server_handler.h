@@ -27,6 +27,8 @@ namespace pecsn_project {
  */
 class Remote_server_handler : public cSimpleModule
 {
+private:
+    priorityQueue<clientMessage> queue;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

@@ -27,6 +27,8 @@ namespace pecsn_project {
  */
 class Disk : public cSimpleModule
 {
+private:
+    priorityQueue<clientMessage> queue;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

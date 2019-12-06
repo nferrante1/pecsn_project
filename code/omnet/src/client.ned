@@ -19,7 +19,11 @@ package pecsn_project;
 // TODO auto-generated module
 //
 simple Client
-{
+{	
+   
+    parameters:
+        @signal[response_time](type = long);
+    	@statistic[response_time](source=“delay”;record=vector;);
     gates:
         inout server;
 }
