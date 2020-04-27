@@ -1,4 +1,4 @@
-<mxfile host="www.draw.io" modified="2020-04-27T09:20:45.794Z" agent="5.0 (X11)" etag="870LTbUg8l_4MIxVyw3u" version="12.9.14" type="github" pages="2">
+<mxfile host="www.draw.io" modified="2020-04-27T09:23:26.265Z" agent="5.0 (X11)" etag="TZI7DwqCQZfcCBhiEJCJ" version="12.9.14" type="github" pages="2">
   <diagram id="DI9stE-lezjQuH22o7OL" name="Page-1">
     <mxGraphModel dx="2274" dy="758" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -17,7 +17,7 @@
           <mxGeometry x="340" y="440" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="XGnLmbRiLtcUTLDITa6F-3" value="DISK" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="320" y="585" width="120" height="60" as="geometry" />
+          <mxGeometry x="340" y="585" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="XGnLmbRiLtcUTLDITa6F-4" value="RemoteServer" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="700" y="525" width="120" height="60" as="geometry" />
@@ -36,6 +36,9 @@
         </mxCell>
         <mxCell id="XGnLmbRiLtcUTLDITa6F-10" value="ClientN" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-190" y="600" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MRjpCRbzBCuHW4lvifJV-1" value="&lt;div&gt;Assumiamo che il numero di Client sia uguale al numero di processi, quindi possiamo evitare di&lt;/div&gt;&lt;div&gt;inserire il modulo &quot;processo&quot; nel modello&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="-341" y="180" width="520" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -98,6 +101,9 @@
         </mxCell>
         <mxCell id="Mwzv46xDyOHA_Jr5Tjgt-16" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="Ui7maxrpVlwW_ar2U6Dd-1">
           <mxGeometry x="-186" y="541" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="7eo2iFePGHSvGj19Rtrh-0" value="Si utilizza un modulo processo, K processi dove K è il livello di multiprogrammazione" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="Ui7maxrpVlwW_ar2U6Dd-1">
+          <mxGeometry x="-340" y="263" width="460" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
