@@ -21,8 +21,9 @@ package pecsn_project;
 simple Remote_server
 {
     parameters:
-     	string distribution = default("exp");
-     	double distrMean = default(0.003);
-    gates:
-        inout multiprog_server;
+     	double serviceTimeMean = default(0.3);
+     	gates:
+     	    input in;
+     	    output out;
+
 }

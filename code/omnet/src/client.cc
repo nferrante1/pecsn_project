@@ -14,19 +14,26 @@
 // 
 
 #include "client.h"
-
+#include "transaction_m.h"
 namespace pecsn_project {
 
 Define_Module(Client);
 
+
 void Client::initialize()
 {
-    // TODO - Generated method body
+    EV<<"Sending transaction"<<endl;
+
+    Transaction *transaction = new Transaction("REQUEST");
+    send (transaction, "out");
 }
 
 void Client::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
+    EV<<"Response arrived"<<endl;
+    //A response from the server arrives, so a new request is issued
+    Transaction * transaction = new Transaction("REQUEST");
+    send (transaction, "out");
 }
 
 } //namespace

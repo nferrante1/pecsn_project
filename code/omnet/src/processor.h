@@ -17,6 +17,7 @@
 #define __PECSN_PROJECT_PROCESSOR_H_
 
 #include <omnetpp.h>
+#include "action.h"
 
 using namespace omnetpp;
 
@@ -25,13 +26,17 @@ namespace pecsn_project {
 /**
  * TODO - Generated class
  */
-class Processor : public cSimpleModule
-{
-  private:
-    priorityQueue<clientMessage> queue;
-  protected:
+class Processor: public cSimpleModule {
+private:
+    cQueue *queue = new cQueue();
+    bool working;
+protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+    virtual void handleSelfMessage(cMessage *msg);
+    virtual void handleRemoteMessage(cMessage *msg);
+    virtual Action evaluateAction();
+
 };
 
 } //namespace

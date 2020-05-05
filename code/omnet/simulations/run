@@ -1,4 +1,5 @@
 #!/bin/sh
 cd `dirname $0`
-../src/pecsn_project -n .:../src $*
-# for shared lib, use: opp_run -l ../src/pecsn_project -n .:../src $*
+#../src/pecsn_project -n .:../src $*
+# for shared lib, use: 
+opp_run -l ../src/pecsn_project -n .:../src $*

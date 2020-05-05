@@ -21,10 +21,8 @@ package pecsn_project;
 simple Processor
 {
     parameters:
-        string distribution = default("exp");
-        double distrMean = default(0.003);
+        double serviceTimeMean = default(0.4);
     gates:
-        inout sw;
-       	inout disk;
-        inout remote;
+        input in[];
+        output out[]; 
 }

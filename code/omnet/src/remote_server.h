@@ -25,11 +25,15 @@ namespace pecsn_project {
 /**
  * TODO - Generated class
  */
-class Remote_server : public cSimpleModule
-{
-  protected:
+class Remote_server: public cSimpleModule {
+private:
+    cQueue *queue = new cQueue();
+    bool working;
+protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+    virtual void handleSelfMessage(cMessage *msg);
+    virtual void handleProcessorMessage(cMessage *msg);
 };
 
 } //namespace

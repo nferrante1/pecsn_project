@@ -22,8 +22,8 @@ simple Disk
 {
     
     parameters:
-        string distribution = default("exp");
-        double distrMean = default(0.003);
+        double serviceTimeMean = default(0.3);
     gates:
-        inout processor;
+        input in;
+        output out;
 }

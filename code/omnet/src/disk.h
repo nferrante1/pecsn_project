@@ -25,13 +25,15 @@ namespace pecsn_project {
 /**
  * TODO - Generated class
  */
-class Disk : public cSimpleModule
-{
+class Disk: public cSimpleModule {
 private:
-    priorityQueue<clientMessage> queue;
-  protected:
+    cQueue* queue = new cQueue();
+    bool working;
+protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+    virtual void handleSelfMessage(cMessage *msg);
+    virtual void handleProcessorMessage(cMessage *msg);
 };
 
 } //namespace

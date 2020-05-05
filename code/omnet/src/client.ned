@@ -22,8 +22,10 @@ simple Client
 {	
    
     parameters:
-        @signal[response_time](type = long);
-    	@statistic[response_time](source=“delay”;record=vector;);
+        //@signal[response_time](type = long);
+    	//@statistic[response_time](source=“delay”;record=vector;);
+    	//@statistic[completed_transactions](source="completed_transactions"; record=vector;);
     gates:
-        inout server;
+        input in;
+        output out;
 }

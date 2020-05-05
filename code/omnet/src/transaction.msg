@@ -15,25 +15,10 @@
 
 namespace pecsn_project;
 
-message Transaction
-{
-    int client_id;
-    int virtual_processor_id;
-    int type; //disk_access, processing or remote_query
-    int step; //transactions have more then one step (proc-disk-proc, proc-remote-proc)
-   
-    simtime_t generation_time; //istante in cui il messaggio e' stato creato
-   
-    //processore
-    simtime_t proc_queue_time; // istante in cui il messaggio e' entrato in coda
-    simtime_t proc_serving_time; // istante in cui il messaggio ha iniziato ad essere processato
-    
-    //disco
-    simtime_t disk_queue_time; // istante in cui il messaggio e' entrato in coda
-    simtime_t disk_serving_time; // tempo per cui il messaggio è stato processato
-    
-	//remote_query
-	simtime_t remote_queue_time; // istante in cui il messaggio e' entrato in coda
-    simtime_t remote_serving_time; // tempo per cui il messaggio è stato processato
-    
+//
+// TODO generated message class
+//
+message Transaction {
+    int id;
+    int gate;
 }

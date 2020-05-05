@@ -14,6 +14,7 @@
 // 
 
 #include "remote_server.h"
+#include "transaction_m.h"
 
 namespace pecsn_project {
 
@@ -21,12 +22,44 @@ Define_Module(Remote_server);
 
 void Remote_server::initialize()
 {
-    // TODO - Generated method body
+    if(!this->queue->isEmpty()) this->queue->clear();
+    this->working = false;
 }
 
 void Remote_server::handleMessage(cMessage *msg)
 {
-    // TODO - Generated method body
+    if(msg->isSelfMessage())
+           handleSelfMessage(msg);
+    else
+           handleProcessorMessage(msg);
+
+}
+
+void Remote_server::handleProcessorMessage(cMessage* msg)
+{
+    EV<<"[handleProcessorMessage]: "<< msg->getFullName()<<"working: "<<working<<endl;
+    if(working){
+       queue->insert(msg);
+    }
+    else{
+        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), msg);
+        working = true;
+    }
+
+}
+
+void Remote_server::handleSelfMessage(cMessage *msg){
+            send(msg, "out"); //Send message to processor
+
+            if(!queue->isEmpty()){
+                cMessage * self = check_and_cast<cMessage *>(queue->pop());
+
+                scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), self);
+                working = true;
+            }
+            else
+                working = false;
+
 }
 
 } //namespace
