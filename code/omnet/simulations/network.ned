@@ -21,19 +21,19 @@ import pecsn_project.Server;
 
 network Network
 {
-    parameters: 
+    parameters:
         int clients = default(3);
     submodules:
         client[clients]: Client {
-            @display("p=29,80");
+            @display("p=29,80;i=device/pc");
         }
         server: Server {
-            @display("p=152,80;is=vl");
+            @display("p=152,80;is=vl;i=device/server2");
         }
         remote_server: Remote_server {
-            @display("p=274,80");
+            @display("p=274,80;i=device/server");
         }
-        connections:
+    connections:
         server.out++ --> {  delay = 40ms; } --> remote_server.in;
         server.in++ <-- {  delay = 40ms; } <-- remote_server.out;
 
@@ -42,5 +42,5 @@ network Network
 
             client[i].in <-- {  delay = 40ms; } <-- server.out++;
         }
-            
+
 }
