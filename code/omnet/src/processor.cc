@@ -23,8 +23,10 @@ Define_Module(Processor);
 
 void Processor::initialize()
 {
-    if(!this->queue->isEmpty()) this->queue->clear();
-      this->working = false;
+    if(!queue->isEmpty()) queue->clear();
+    working = false;
+    completedTransactions = 0;
+    registerSignal("completedTransactions");
 }
 
 void Processor::handleMessage(cMessage *msg)
@@ -41,36 +43,38 @@ void Processor::handleSelfMessage(cMessage *msg)
     try {
         Transaction *transaction = check_and_cast<Transaction*>(msg);
         Action action = evaluateAction();
+        EV_INFO<<"Action : "<<action<<endl;
         switch (action) {
         case TERMINATE:
-            EV << "Sending response to client";
+            EV << "Sending response to client"<<endl;
 
             transaction->setName("RESPONSE");
             /*respCount++;
              emit(responseSignal, respCount); //Send a signal
              */
+            emit(transactionSignal, ++completedTransactions);
 
-            send(transaction, "out", transaction->getGate()); //Respond to client at the correct gate
+            EV_INFO<<"Sending response to client at "<<transaction->getGate()<<endl;
+
+            send(msg, "out", transaction->getGate()); //Respond to client at the correct gate
             break;
         case DISK:
             EV << "Sending transaction to disk" << endl;
 
-            transaction->setName("RESPONSE");
-            send(transaction, "out", 0); // 0 is the index of the disk's gate
+            transaction->setName("DISK");
+            send(msg, "out", 0); // 0 is the index of the disk's gate
             break;
         case REMOTE_QUERY:
-            EV << "Sending transaction to disk" << endl;
+            EV << "Sending transaction to remote server" << endl;
 
-            transaction->setName("RESPONSE");
-            send(transaction, "out", 1); // 1 is the index of the remote server's gate
+            transaction->setName("REMOTE");
+            send(msg, "out", 1); // 1 is the index of the remote server's gate
             break;
         default:
             EV << "Unsupported Operation " << endl;
             break;
         }
-    } catch (cRuntimeError error) {
-        EV << "Error" << error.getFormattedMessage();
-    }
+
 
     //Get the next queued transaction
 
@@ -85,30 +89,37 @@ void Processor::handleSelfMessage(cMessage *msg)
         working = true;
     } else
         working = false;
+    } catch (cRuntimeError *error) {
+        EV <<error->getFormattedMessage();
+    }
 }
 
 void Processor::handleRemoteMessage(cMessage *msg) {
-    EV << "Request arrived";
+
     try {
         Transaction *transaction = check_and_cast<Transaction*>(msg);
+        const char* request= "REQUEST";
+        if(strncmp(transaction->getFullName(), request, strlen(transaction->getFullName())) == 0){
+            EV << "Client Request arrived";
+            transaction->setGate(transaction->getArrivalGate()->getIndex());
+        }
 
         if (!working) {
 
-            EV << " - working" << endl;
-            transaction->setGate(msg->getArrivalGate()->getIndex());
+            EV << "Working" << endl;
+
             double working_time = exponential(
                     par("serviceTimeMean").doubleValue());
 
-            EV << " - working time 0: " << working_time << endl;
+            EV << "Preprocessing time: " << working_time << endl;
             scheduleAt(simTime() + working_time, transaction);
             working = true;
         } else {
-            EV << " - Added to queue" << endl;
-            transaction->setGate(msg->getArrivalGate()->getIndex());
+            EV << "Added to queue" << endl;
             queue->insert(transaction); //Message added to the queue
         }
-    } catch (cRuntimeError error) {
-        EV << "Error: "<< error.getFormattedMessage() << endl;
+    } catch (cRuntimeError *error) {
+        EV << "Error: "<< error->getFormattedMessage() << endl;
         return;
     }
 
@@ -121,11 +132,18 @@ Action Processor::evaluateAction(){
 
          double p1 = getParentModule()->par("p1").doubleValue();
          double p2 = getParentModule()->par("p2").doubleValue();
-         if(random <= p1)
+         EV<<"P1 = "<<p1<<" P2: "<<p2<<endl;
+         if(random < p1)
              return TERMINATE;
-         else if(random <= p2)
+         else if(random < p1 + p2)
              return DISK;
          else
              return REMOTE_QUERY;
 }
+
+ Processor::~Processor(){
+    delete queue;
+    working = false;
+}
+
 } //namespace

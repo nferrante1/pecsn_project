@@ -48,17 +48,30 @@ void Disk::handleProcessorMessage(cMessage* msg)
 }
 
 void Disk::handleSelfMessage(cMessage *msg){
-            send(msg, "out"); //Send message to processor
+    send(msg, "out"); //Send message to processor
+    try {
+        if (!queue->isEmpty()) {
 
-            if(!queue->isEmpty()){
-                cMessage * self = check_and_cast<cMessage *>(queue->pop());
+            cMessage * self = check_and_cast<cMessage *>(queue->pop());
 
-                scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), self);
-                working = true;
-            }
-            else
-                working = false;
+            scheduleAt(
+                    simTime()
+                            + exponential(par("serviceTimeMean").doubleValue()),
+                    self);
+            working = true;
 
+        } else
+            working = false;
+    } catch (cRuntimeError *error) {
+        EV << error->getFormattedMessage() << endl;
+    }
+
+}
+
+Disk::~Disk(){
+
+    delete queue;
+    working = false;
 }
 
 } //namespace

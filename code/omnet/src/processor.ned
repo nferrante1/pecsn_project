@@ -22,6 +22,9 @@ simple Processor
 {
     parameters:
         double serviceTimeMean = default(0.4);
+        
+        @signal[completedTransactions](type = long);
+    	@statistic[completedTransactionsStat](source="completedTransactions"; record=count,vector;);
     gates:
         input in[];
         output out[]; 

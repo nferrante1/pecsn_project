@@ -30,6 +30,8 @@ class Processor: public cSimpleModule {
 private:
     cQueue *queue = new cQueue();
     bool working;
+    long completedTransactions;
+    simsignal_t transactionSignal;
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);

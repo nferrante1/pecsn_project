@@ -21,31 +21,31 @@ module Server
         int clients = default(3);
         double p1 = default(0.33);
         double p2 = default(0.33);
-     gates:
+    gates:
         input in[];
         output out[];
     submodules:
         disk: Disk {
-            @display("p=104,56");
+            @display("p=104,56;i=device/disk");
         }
         processor: Processor {
-            @display("p=104,121");
+            @display("p=104,121;i=device/cpu");
         }
-        
+
     connections:
         //Connections from processor to disk
         processor.out++ --> {  delay = 1ms; } --> disk.in; //out[0] -> disk
-        processor.in++ <-- {delay = 1ms; } <-- disk.out; // in[0] proc <- disk
-        
+        processor.in++ <-- {  delay = 1ms; } <-- disk.out; // in[0] proc <- disk
+
         //Connections from processor to remote_server
-        processor.in++ <-- {delay = 1ms;} <-- in++; //in[1] <- in[0] server (query)
-        processor.out++ -->{delay = 1ms;} --> out++; //out[1] -> out[0] server (query)
-        
+        processor.in++ <-- {  delay = 1ms; } <-- in++; //in[1] <- in[0] server (query)
+        processor.out++ --> {  delay = 1ms; } --> out++; //out[1] -> out[0] server (query)
+
         //Connections from processor to client
-        for i = 0..clients-1{
-           processor.in++ <-- {  delay = 1ms; } <-- in++;    //in[2+] proc  <- in[0+] server
-           processor.out++ --> {  delay = 1ms; } --> out++; //out[2+] proc -> out[0+] server
+        for i=0..clients-1 {
+            processor.in++ <-- {  delay = 1ms; } <-- in++;    //in[2+] proc  <- in[0+] server
+            processor.out++ --> {  delay = 1ms; } --> out++; //out[2+] proc -> out[0+] server
         }
-        
-        
+
+
 }

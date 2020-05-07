@@ -50,16 +50,25 @@ void Remote_server::handleProcessorMessage(cMessage* msg)
 
 void Remote_server::handleSelfMessage(cMessage *msg){
             send(msg, "out"); //Send message to processor
-
+            try{
             if(!queue->isEmpty()){
+
                 cMessage * self = check_and_cast<cMessage *>(queue->pop());
 
                 scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), self);
                 working = true;
+
             }
             else
                 working = false;
+            } catch (cRuntimeError *error){
+                               EV<<error->getFormattedMessage()<<endl;
+                           }
+}
 
+void Remote_server::~Remote_server(){
+    delete queue;
+    working = false;
 }
 
 } //namespace
