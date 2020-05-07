@@ -66,9 +66,9 @@ void Remote_server::handleSelfMessage(cMessage *msg){
                            }
 }
 
-void Remote_server::~Remote_server(){
-    delete queue;
-    working = false;
-}
+//void Remote_server::~Remote_server(){
+//    delete queue;
+//    working = false;
+//}
 
 } //namespace

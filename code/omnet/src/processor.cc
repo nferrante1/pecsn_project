@@ -141,9 +141,9 @@ Action Processor::evaluateAction(){
              return REMOTE_QUERY;
 }
 
- Processor::~Processor(){
-    delete queue;
-    working = false;
-}
+// Processor::~Processor(){
+//    delete queue;
+//    working = false;
+//}
 
 } //namespace

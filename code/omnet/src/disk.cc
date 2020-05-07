@@ -68,10 +68,10 @@ void Disk::handleSelfMessage(cMessage *msg){
 
 }
 
-Disk::~Disk(){
-
-    delete queue;
-    working = false;
-}
+//Disk::~Disk(){
+//
+//    delete queue;
+//    working = false;
+//}
 
 } //namespace
