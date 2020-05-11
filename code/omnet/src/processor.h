@@ -23,22 +23,22 @@ using namespace omnetpp;
 
 namespace pecsn_project {
 
-/**
- * TODO - Generated class
- */
 class Processor: public cSimpleModule {
 private:
+    cMessage *beep_;
     cQueue *queue = new cQueue();
-    bool working;
-    long completedTransactions;
-    simsignal_t transactionSignal;
+    bool working = false;
+    long completedTransactions = 0;
+    simsignal_t completeSignal;
+
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
     virtual void handleSelfMessage(cMessage *msg);
     virtual void handleRemoteMessage(cMessage *msg);
     virtual Action evaluateAction();
-
+public:
+    virtual ~Processor();
 };
 
 } //namespace

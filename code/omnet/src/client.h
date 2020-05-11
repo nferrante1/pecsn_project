@@ -27,9 +27,13 @@ namespace pecsn_project {
  */
 class Client : public cSimpleModule
 {
+
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+  public:
+    virtual ~Client();
+
 };
 
 } //namespace

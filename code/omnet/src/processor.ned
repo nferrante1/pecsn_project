@@ -15,16 +15,13 @@
 
 package pecsn_project;
 
-//
-// TODO auto-generated module
-//
 simple Processor
 {
     parameters:
         double serviceTimeMean = default(0.4);
         
-        @signal[completedTransactions](type = long);
-    	@statistic[completedTransactionsStat](source="completedTransactions"; record=count,vector;);
+        @signal[complete](type="long");
+    	@statistic[completedTransactions](title="Completed Transactions";source="complete"; record=stats,vector);
     gates:
         input in[];
         output out[]; 

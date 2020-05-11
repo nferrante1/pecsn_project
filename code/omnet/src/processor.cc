@@ -23,10 +23,12 @@ Define_Module(Processor);
 
 void Processor::initialize()
 {
-    if(!queue->isEmpty()) queue->clear();
+    completeSignal = registerSignal("complete");
+    if(!queue->isEmpty())
+        queue->clear();
     working = false;
     completedTransactions = 0;
-    registerSignal("completedTransactions");
+//    emit(completeSignal, 0);
 }
 
 void Processor::handleMessage(cMessage *msg)
@@ -46,17 +48,15 @@ void Processor::handleSelfMessage(cMessage *msg)
         EV_INFO<<"Action : "<<action<<endl;
         switch (action) {
         case TERMINATE:
-            EV << "Sending response to client"<<endl;
-
-            transaction->setName("RESPONSE");
-            /*respCount++;
-             emit(responseSignal, respCount); //Send a signal
-             */
-            emit(transactionSignal, ++completedTransactions);
-
             EV_INFO<<"Sending response to client at "<<transaction->getGate()<<endl;
 
-            send(msg, "out", transaction->getGate()); //Respond to client at the correct gate
+            transaction->setName("RESPONSE");
+
+            //completeSignal = registerSignal("complete");
+            completedTransactions++;
+            emit(completeSignal, completedTransactions);
+            send(transaction, "out", transaction->getGate());
+
             break;
         case DISK:
             EV << "Sending transaction to disk" << endl;
@@ -75,17 +75,19 @@ void Processor::handleSelfMessage(cMessage *msg)
             break;
         }
 
+        beep_ = nullptr;
+
 
     //Get the next queued transaction
 
     if (!queue->isEmpty()) {
-        cMessage * self = check_and_cast<cMessage *>(queue->pop());
+        beep_ = check_and_cast<cMessage *>(queue->pop());
 
         double working_time = exponential(par("serviceTimeMean").doubleValue());
 
         EV << " - working time: " << working_time;
 
-        scheduleAt(simTime() + working_time, self);
+        scheduleAt(simTime() + working_time, beep_);
         working = true;
     } else
         working = false;
@@ -141,9 +143,14 @@ Action Processor::evaluateAction(){
              return REMOTE_QUERY;
 }
 
-// Processor::~Processor(){
-//    delete queue;
-//    working = false;
-//}
+
+Processor::~Processor(){
+    if(beep_ != nullptr)
+        cancelAndDelete(beep_);
+    if(!queue->isEmpty()){
+        queue->clear();
+    }
+    delete queue;
+}
 
 } //namespace

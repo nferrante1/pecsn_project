@@ -19,21 +19,26 @@ namespace pecsn_project {
 
 Define_Module(Client);
 
+Client::~Client(){
+
+}
 
 void Client::initialize()
 {
     EV<<"Sending transaction"<<endl;
 
     Transaction *transaction = new Transaction("REQUEST");
-    send (transaction, "out");
+    send(transaction, "out");
+
 }
 
 void Client::handleMessage(cMessage *msg)
 {
+    cancelAndDelete(msg);
     EV<<"Response arrived"<<endl;
     //A response from the server arrives, so a new request is issued
-    Transaction * transaction = new Transaction("REQUEST");
-    send (transaction, "out");
+    Transaction *transaction = new Transaction("REQUEST");
+    send(transaction, "out");
 }
 
 } //namespace

@@ -20,6 +20,17 @@ namespace pecsn_project {
 
 Define_Module(Disk);
 
+
+Disk::~Disk(){
+    if(beep_ != nullptr)
+        cancelAndDelete(beep_);
+
+    if(!queue->isEmpty()){
+        queue->clear();
+    }
+    delete queue;
+}
+
 void Disk::initialize()
 {
    if(!this->queue->isEmpty()) this->queue->clear();
@@ -28,36 +39,43 @@ void Disk::initialize()
 
 void Disk::handleMessage(cMessage *msg)
 {
+
     if(msg->isSelfMessage())
         handleSelfMessage(msg);
     else
         handleProcessorMessage(msg);
+
 }
 
 void Disk::handleProcessorMessage(cMessage* msg)
 {
+
     EV<<"[handleProcessorMessage]: "<< msg->getFullName()<<"working: "<<this->working<<endl;
     if(this->working){
         this->queue->insert(msg);
     }
+
     else{
-        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), msg);
+
+        beep_ = msg;
+        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
         this->working = true;
     }
 
 }
 
 void Disk::handleSelfMessage(cMessage *msg){
-    send(msg, "out"); //Send message to processor
+    send(msg, "out");
+    beep_ = nullptr;//Send message to processor
     try {
         if (!queue->isEmpty()) {
 
-            cMessage * self = check_and_cast<cMessage *>(queue->pop());
+            beep_= check_and_cast<cMessage *>(queue->pop());
 
             scheduleAt(
                     simTime()
                             + exponential(par("serviceTimeMean").doubleValue()),
-                    self);
+                    beep_);
             working = true;
 
         } else
@@ -67,11 +85,5 @@ void Disk::handleSelfMessage(cMessage *msg){
     }
 
 }
-
-//Disk::~Disk(){
-//
-//    delete queue;
-//    working = false;
-//}
 
 } //namespace

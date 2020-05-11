@@ -27,13 +27,18 @@ namespace pecsn_project {
  */
 class Disk: public cSimpleModule {
 private:
+    cMessage *beep_;
+
     cQueue* queue = new cQueue();
-    bool working;
+    bool working = false;
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
     virtual void handleSelfMessage(cMessage *msg);
     virtual void handleProcessorMessage(cMessage *msg);
+
+public:
+    virtual ~Disk();
 };
 
 } //namespace

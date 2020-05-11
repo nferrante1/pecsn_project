@@ -42,33 +42,42 @@ void Remote_server::handleProcessorMessage(cMessage* msg)
        queue->insert(msg);
     }
     else{
-        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), msg);
+        beep_ = msg;
+        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
         working = true;
     }
 
 }
 
 void Remote_server::handleSelfMessage(cMessage *msg){
-            send(msg, "out"); //Send message to processor
+            send(msg, "out");
+            beep_ = nullptr;//Send message to processor
             try{
             if(!queue->isEmpty()){
 
-                cMessage * self = check_and_cast<cMessage *>(queue->pop());
+                beep_ = check_and_cast<cMessage *>(queue->pop());
 
-                scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), self);
+                scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
                 working = true;
 
             }
             else
                 working = false;
             } catch (cRuntimeError *error){
-                               EV<<error->getFormattedMessage()<<endl;
-                           }
+                EV<<error->getFormattedMessage()<<endl;
+            }
 }
 
-//void Remote_server::~Remote_server(){
-//    delete queue;
-//    working = false;
-//}
+
+
+Remote_server::~Remote_server(){
+    if(beep_ != nullptr)
+        cancelAndDelete(beep_);
+
+    if(!queue->isEmpty()){
+        queue->clear();
+    }
+    delete queue;
+}
 
 } //namespace
