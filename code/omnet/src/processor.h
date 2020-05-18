@@ -30,6 +30,8 @@ private:
     bool working = false;
     long completedTransactions = 0;
     simsignal_t completeSignal;
+    simtime_t workTime;
+    simsignal_t workTimeSignal;
 
 protected:
     virtual void initialize();

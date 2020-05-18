@@ -22,6 +22,8 @@ simple Disk
 {
     
     parameters:
+        @signal[working](type="long");
+    	@statistic[workingStat](title="Utilisation";source="working"; record=stats,vector);
         double serviceTimeMean = default(0.3);
     gates:
         input in;

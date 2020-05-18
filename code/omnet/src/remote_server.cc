@@ -22,6 +22,7 @@ Define_Module(Remote_server);
 
 void Remote_server::initialize()
 {
+    workTimeSignal = registerSignal("working");
     if(!this->queue->isEmpty()) this->queue->clear();
     this->working = false;
 }
@@ -44,6 +45,7 @@ void Remote_server::handleProcessorMessage(cMessage* msg)
     else{
         beep_ = msg;
         scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
+        workTime = simTime();
         working = true;
     }
 
@@ -62,6 +64,7 @@ void Remote_server::handleSelfMessage(cMessage *msg){
 
             }
             else
+                emit(workTimeSignal, simTime() - workTime);
                 working = false;
             } catch (cRuntimeError *error){
                 EV<<error->getFormattedMessage()<<endl;

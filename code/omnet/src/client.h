@@ -27,6 +27,9 @@ namespace pecsn_project {
  */
 class Client : public cSimpleModule
 {
+private:
+    simsignal_t responseTime;
+    simtime_t start;
 
   protected:
     virtual void initialize();

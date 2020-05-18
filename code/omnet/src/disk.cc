@@ -33,6 +33,7 @@ Disk::~Disk(){
 
 void Disk::initialize()
 {
+   workTimeSignal = registerSignal("working");
    if(!this->queue->isEmpty()) this->queue->clear();
    this->working = false;
 }
@@ -59,6 +60,7 @@ void Disk::handleProcessorMessage(cMessage* msg)
 
         beep_ = msg;
         scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
+        workTime = simTime();
         this->working = true;
     }
 
@@ -79,6 +81,7 @@ void Disk::handleSelfMessage(cMessage *msg){
             working = true;
 
         } else
+            emit(workTimeSignal, simTime() - workTime);
             working = false;
     } catch (cRuntimeError *error) {
         EV << error->getFormattedMessage() << endl;

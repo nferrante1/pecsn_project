@@ -25,8 +25,9 @@ Client::~Client(){
 
 void Client::initialize()
 {
+    responseTime = registerSignal("responseTime");
     EV<<"Sending transaction"<<endl;
-
+    start = simTime();
     Transaction *transaction = new Transaction("REQUEST");
     send(transaction, "out");
 
@@ -35,10 +36,14 @@ void Client::initialize()
 void Client::handleMessage(cMessage *msg)
 {
     cancelAndDelete(msg);
+
+    emit(responseTime, simTime() - start);
+
     EV<<"Response arrived"<<endl;
     //A response from the server arrives, so a new request is issued
     Transaction *transaction = new Transaction("REQUEST");
     send(transaction, "out");
+    start = simTime();
 }
 
 } //namespace

@@ -22,6 +22,8 @@ simple Remote_server
 {
     parameters:
      	double serviceTimeMean = default(0.3);
+    	@signal[working](type="long");
+    	@statistic[workingStat](title="Utilisation";source="working"; record=stats,vector);
      	gates:
      	    input in;
      	    output out;

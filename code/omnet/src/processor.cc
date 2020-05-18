@@ -24,6 +24,7 @@ Define_Module(Processor);
 void Processor::initialize()
 {
     completeSignal = registerSignal("complete");
+    workTimeSignal = registerSignal("working");
     if(!queue->isEmpty())
         queue->clear();
     working = false;
@@ -91,6 +92,7 @@ void Processor::handleSelfMessage(cMessage *msg)
         working = true;
     } else
         working = false;
+        emit(workTimeSignal, simTime() - workTime);
     } catch (cRuntimeError *error) {
         EV <<error->getFormattedMessage();
     }
@@ -115,6 +117,7 @@ void Processor::handleRemoteMessage(cMessage *msg) {
 
             EV << "Preprocessing time: " << working_time << endl;
             scheduleAt(simTime() + working_time, transaction);
+            workTime = simTime();
             working = true;
         } else {
             EV << "Added to queue" << endl;

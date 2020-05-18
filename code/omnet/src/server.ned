@@ -26,7 +26,7 @@ module Server
         output out[];
     submodules:
         disk: Disk {
-            @display("p=104,56;i=device/disk");
+            @display("p=110,36;i=device/disk");
         }
         processor: Processor {
             @display("p=104,121;i=device/cpu");

@@ -31,6 +31,8 @@ private:
 
     cQueue* queue = new cQueue();
     bool working = false;
+    simtime_t workTime;
+    simsignal_t workTimeSignal;
 protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
