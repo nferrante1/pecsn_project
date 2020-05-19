@@ -22,7 +22,12 @@ import pecsn_project.Server;
 network Network
 {
     parameters:
+        string scenario = default("A");
+        int serviceTimeConfig = default(1);
         int clients = default(3);
+         @signal[responseTime](type="long");
+    	@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats,vector);
+        
     submodules:
         client[clients]: Client {
             @display("p=29,80;i=device/pc");

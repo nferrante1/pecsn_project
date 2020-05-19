@@ -24,6 +24,7 @@ simple Client
     parameters:
         @signal[responseTime](type="long");
     	@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats,vector);
+        
       
     gates:
         input in;

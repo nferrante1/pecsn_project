@@ -25,7 +25,7 @@ namespace pecsn_project {
 
 class Processor: public cSimpleModule {
 private:
-    cMessage *beep_;
+    cMessage *beep_ = nullptr;
     cQueue *queue = new cQueue();
     bool working = false;
     long completedTransactions = 0;

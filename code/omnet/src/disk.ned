@@ -23,8 +23,8 @@ simple Disk
     
     parameters:
         @signal[working](type="long");
-    	@statistic[workingStat](title="Utilisation";source="working"; record=stats,vector);
-        double serviceTimeMean = default(0.3);
+    	@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
+        double serviceTimeMean = default(1.0);
     gates:
         input in;
         output out;

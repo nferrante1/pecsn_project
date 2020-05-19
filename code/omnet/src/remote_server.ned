@@ -21,9 +21,9 @@ package pecsn_project;
 simple Remote_server
 {
     parameters:
-     	double serviceTimeMean = default(0.3);
+     	double serviceTimeMean = default(1.0);
     	@signal[working](type="long");
-    	@statistic[workingStat](title="Utilisation";source="working"; record=stats,vector);
+    	@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
      	gates:
      	    input in;
      	    output out;

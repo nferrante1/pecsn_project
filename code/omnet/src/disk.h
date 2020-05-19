@@ -27,7 +27,7 @@ namespace pecsn_project {
  */
 class Disk: public cSimpleModule {
 private:
-    cMessage *beep_;
+    cMessage *beep_ = nullptr;
 
     cQueue* queue = new cQueue();
     bool working = false;

@@ -28,7 +28,7 @@ namespace pecsn_project {
 class Remote_server: public cSimpleModule {
 private:
 
-    cMessage *beep_;
+    cMessage *beep_ = nullptr;
     cQueue *queue = new cQueue();
     bool working = false;
     simtime_t workTime;
