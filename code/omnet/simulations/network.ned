@@ -22,7 +22,7 @@ import pecsn_project.Server;
 network Network
 {
     parameters:
-        string scenario = default("A");
+        string scenario = default("s1");
         int serviceTimeConfig = default(1);
         int clients = default(3);
          @signal[responseTime](type="long");
@@ -39,8 +39,8 @@ network Network
             @display("p=274,80;i=device/server");
         }
     connections:
-        server.out++ --> {  delay = 40ms; } --> remote_server.in;
-        server.in++ <-- {  delay = 40ms; } <-- remote_server.out;
+        server.out++ --> {  delay = 80ms; } --> remote_server.in;
+        server.in++ <-- {  delay = 80ms; } <-- remote_server.out;
 
         for i=0..clients-1 {
             client[i].out --> {  delay = 40ms; } --> server.in++;
