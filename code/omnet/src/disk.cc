@@ -80,13 +80,19 @@ void Disk::handleSelfMessage(cMessage *msg){
                     beep_);
             working = true;
 
-        } else
-            emit(workTimeSignal, simTime() - workTime);
+        } else {
             working = false;
+            emit(workTimeSignal, simTime() - workTime);
+        }
     } catch (cRuntimeError *error) {
         EV << error->getFormattedMessage() << endl;
     }
 
 }
+
+void Disk::finish(){
+    if(working)
+        emit(workTimeSignal, simTime() - workTime);
+    }
 
 } //namespace

@@ -63,9 +63,10 @@ void Remote_server::handleSelfMessage(cMessage *msg){
                 working = true;
 
             }
-            else
+            else{
                 emit(workTimeSignal, simTime() - workTime);
                 working = false;
+            }
             } catch (cRuntimeError *error){
                 EV<<error->getFormattedMessage()<<endl;
             }
@@ -81,6 +82,12 @@ Remote_server::~Remote_server(){
         queue->clear();
     }
     delete queue;
+}
+
+void Remote_server::finish(){
+    if(working){
+            emit(workTimeSignal, simTime() - workTime);
+        }
 }
 
 } //namespace

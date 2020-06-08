@@ -39,6 +39,7 @@ protected:
     virtual void handleSelfMessage(cMessage *msg);
     virtual void handleRemoteMessage(cMessage *msg);
     virtual Action evaluateAction();
+    virtual void finish();
 public:
     virtual ~Processor();
 };

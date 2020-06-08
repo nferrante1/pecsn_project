@@ -90,9 +90,10 @@ void Processor::handleSelfMessage(cMessage *msg)
 
         scheduleAt(simTime() + working_time, beep_);
         working = true;
-    } else
+    } else {
         working = false;
         emit(workTimeSignal, simTime() - workTime);
+    }
     } catch (cRuntimeError *error) {
         EV <<error->getFormattedMessage();
     }
@@ -110,7 +111,7 @@ void Processor::handleRemoteMessage(cMessage *msg) {
 
         if (!working) {
 
-            EV << "Working" << endl;
+            EV << "Not Working" << endl;
 
             double working_time = exponential(
                     par("serviceTimeMean").doubleValue());
@@ -154,6 +155,11 @@ Processor::~Processor(){
         queue->clear();
     }
     delete queue;
+}
+
+void Processor::finish(){
+    if(working)
+    emit(workTimeSignal, simTime() - workTime);
 }
 
 } //namespace

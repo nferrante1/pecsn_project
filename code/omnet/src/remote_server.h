@@ -38,6 +38,7 @@ protected:
     virtual void handleMessage(cMessage *msg);
     virtual void handleSelfMessage(cMessage *msg);
     virtual void handleProcessorMessage(cMessage *msg);
+    virtual void finish();
 public:
     virtual ~Remote_server();
 };
