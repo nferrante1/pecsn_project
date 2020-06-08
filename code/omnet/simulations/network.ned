@@ -23,7 +23,7 @@ network Network
 {
     parameters:
         string scenario = default("s1");
-        int serviceTimeConfig = default(1);
+        string serviceTimeConfig = default("c1");
         int clients = default(3);
          @signal[responseTime](type="long");
     	@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats,vector);
