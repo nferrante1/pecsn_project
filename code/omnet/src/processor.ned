@@ -20,9 +20,11 @@ simple Processor
     parameters:
         double serviceTimeMean = default(1.0);
         @signal[working](type="long");
-    	@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
-        @signal[complete](type="long");
-    	@statistic[completedTransactions](title="Completed Transactions";source="complete"; record=stats,vector);
+    	@statistic[workingStat](title="Utilization";source="working"; record=stats);
+        //@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
+       	@signal[complete](type="long");
+    	//@statistic[completedTransactions](title="Completed Transactions";source="complete"; record=stats,vector);
+    	@statistic[completedTransactions](title="Completed Transactions";source="complete"; record=stats);
     	
     gates:
         input in[];

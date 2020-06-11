@@ -26,7 +26,9 @@ network Network
         string serviceTimeConfig = default("c1");
         int clients = default(3);
          @signal[responseTime](type="long");
-    	@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats,vector);
+    	//@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats,vector);
+        
+    	@statistic[responseTimeStat](title="Response Time";source="responseTime"; record=stats);
         
     submodules:
         client[clients]: Client {

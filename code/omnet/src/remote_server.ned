@@ -23,7 +23,8 @@ simple Remote_server
     parameters:
      	double serviceTimeMean = default(1.0);
     	@signal[working](type="long");
-    	@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
+    	//@statistic[workingStat](title="Utilization";source="working"; record=stats,vector);
+     	@statistic[workingStat](title="Utilization";source="working"; record=stats);
      	gates:
      	    input in;
      	    output out;
