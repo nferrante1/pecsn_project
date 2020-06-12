@@ -1,6 +1,6 @@
 --VIEW FOR RUN PARAMETERS
 
-CREATE OR REPLACE VIEW runConfig AS
+CREATE VIEW runConfig AS
 
 SELECT rp1.runId, CAST(rp1.paramValue as INT) as clients,
 	SUBSTR(rp2.paramValue,2,2) as scenario, 
