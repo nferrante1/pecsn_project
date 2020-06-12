@@ -38,3 +38,21 @@ WHERE scenario = "s1" AND
 GROUP BY config, clients, moduleName
 ORDER BY clients
 
+
+--Throughput 2kr
+SELECT clients, scenario, config, attrValue, statCount / 3800.0 as throughput 
+FROM runAttr NATURAL JOIN runConfig NATURAL JOIN statistic
+WHERE scenario = "s2" AND
+		statName = "completedTransactions:stats" AND
+		clients = 21 AND
+		attrName = "repetition"
+order by scenario, config, attrValue
+--ResponseTime 2kr
+SELECT clients, scenario, config, attrValue, statMean as responseTime 
+FROM runAttr NATURAL JOIN runConfig NATURAL JOIN statistic
+WHERE scenario = "s1" AND
+		statName = "responseTimeStat:stats" AND
+		clients = 21 AND
+		attrName = "repetition" AND
+		moduleName = "Network"
+order by scenario, config, attrValue
