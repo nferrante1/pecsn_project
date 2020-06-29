@@ -59,8 +59,11 @@ void Disk::handleProcessorMessage(cMessage* msg)
     else{
 
         beep_ = msg;
-        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
-        workTime = simTime();
+
+        workTime = exponential(par("serviceTimeMean").doubleValue());
+        emit(workTimeSignal, workTime);
+        scheduleAt(simTime() + workTime, beep_);
+
         this->working = true;
     }
 
@@ -73,26 +76,18 @@ void Disk::handleSelfMessage(cMessage *msg){
         if (!queue->isEmpty()) {
 
             beep_= check_and_cast<cMessage *>(queue->pop());
-
-            scheduleAt(
-                    simTime()
-                            + exponential(par("serviceTimeMean").doubleValue()),
-                    beep_);
+            workTime = exponential(par("serviceTimeMean").doubleValue());
+            emit(workTimeSignal, workTime);
+            scheduleAt(simTime() + workTime, beep_);
             working = true;
 
         } else {
             working = false;
-            emit(workTimeSignal, simTime() - workTime);
         }
     } catch (cRuntimeError *error) {
         EV << error->getFormattedMessage() << endl;
     }
 
 }
-
-void Disk::finish(){
-    if(working)
-        emit(workTimeSignal, simTime() - workTime);
-    }
 
 } //namespace

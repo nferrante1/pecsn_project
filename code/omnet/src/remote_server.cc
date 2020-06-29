@@ -44,8 +44,9 @@ void Remote_server::handleProcessorMessage(cMessage* msg)
     }
     else{
         beep_ = msg;
-        scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
-        workTime = simTime();
+        workTime = exponential(par("serviceTimeMean").doubleValue());
+        emit(workTimeSignal, workTime);
+        scheduleAt(simTime() + workTime, beep_);
         working = true;
     }
 
@@ -58,13 +59,13 @@ void Remote_server::handleSelfMessage(cMessage *msg){
             if(!queue->isEmpty()){
 
                 beep_ = check_and_cast<cMessage *>(queue->pop());
-
-                scheduleAt(simTime() + exponential(par("serviceTimeMean").doubleValue()), beep_);
+                workTime = exponential(par("serviceTimeMean").doubleValue());
+                emit(workTimeSignal, workTime);
+                scheduleAt(simTime() + workTime, beep_);
                 working = true;
 
             }
             else{
-                emit(workTimeSignal, simTime() - workTime);
                 working = false;
             }
             } catch (cRuntimeError *error){
@@ -82,12 +83,6 @@ Remote_server::~Remote_server(){
         queue->clear();
     }
     delete queue;
-}
-
-void Remote_server::finish(){
-    if(working){
-            emit(workTimeSignal, simTime() - workTime);
-        }
 }
 
 } //namespace

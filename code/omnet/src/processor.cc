@@ -84,15 +84,12 @@ void Processor::handleSelfMessage(cMessage *msg)
     if (!queue->isEmpty()) {
         beep_ = check_and_cast<cMessage *>(queue->pop());
 
-        double working_time = exponential(par("serviceTimeMean").doubleValue());
-
-        EV << " - working time: " << working_time;
-
-        scheduleAt(simTime() + working_time, beep_);
+        workTime = exponential(par("serviceTimeMean").doubleValue());
+        emit(workTimeSignal, workTime);
+        scheduleAt(simTime() + workTime, beep_);
         working = true;
     } else {
         working = false;
-        emit(workTimeSignal, simTime() - workTime);
     }
     } catch (cRuntimeError *error) {
         EV <<error->getFormattedMessage();
@@ -113,12 +110,10 @@ void Processor::handleRemoteMessage(cMessage *msg) {
 
             EV << "Not Working" << endl;
 
-            double working_time = exponential(
-                    par("serviceTimeMean").doubleValue());
+            workTime = exponential(par("serviceTimeMean").doubleValue());
+            emit(workTimeSignal, workTime);
+            scheduleAt(simTime() + workTime, transaction);
 
-            EV << "Preprocessing time: " << working_time << endl;
-            scheduleAt(simTime() + working_time, transaction);
-            workTime = simTime();
             working = true;
         } else {
             EV << "Added to queue" << endl;
@@ -157,9 +152,5 @@ Processor::~Processor(){
     delete queue;
 }
 
-void Processor::finish(){
-    if(working)
-    emit(workTimeSignal, simTime() - workTime);
-}
 
 } //namespace
